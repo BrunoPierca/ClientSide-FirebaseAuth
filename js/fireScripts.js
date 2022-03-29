@@ -12,10 +12,10 @@ function show() {
   var loginP = loginForm["loginPassword"];
   p.setAttribute("type", "text");
   p2.setAttribute("type", "text");
-  p.setAttribute("placeholder", "UnaContraseñaSegura:)");
-  p2.setAttribute("placeholder", "LaMismaContraseñaSegura;)");
+  p.setAttribute("placeholder", "Password");
+  p2.setAttribute("placeholder", "Password again :)");
   loginP.setAttribute("type", "text");
-  loginP.setAttribute("placeholder", "Tu contraseña");
+  loginP.setAttribute("placeholder", "Your password");
 }
 
 function hide() {
@@ -50,26 +50,6 @@ document
 
 // Auth
 
-// Firebase Auth + Real Time database
-// Firebase RTDB
-const URL = document.location.toString();
-function cutFromString(oldStrRegex, fullStr) {
-  return fullStr.replace(oldStrRegex, "");
-}
-const queryURL = cutFromString("http://127.0.0.1:5500/index.html?", URL);
-
-console.log(queryURL);
-console.log(db);
-
-// rules_version = '2';
-// service cloud.firestore {
-//   match /databases/{database}/documents {
-//     match /{document=**} {
-//       allow read, write: if
-//           request.time < timestamp.date(2022, 3, 23);
-//     }
-//   }
-// }
 let isLogged = false;
 
 auth.onAuthStateChanged((user) => {
@@ -117,10 +97,6 @@ signUpForm.addEventListener("submit", (e) => {
   } else {
     PassDontMatchDiv.classList.add("d-none");
   }
-  //   if (email ya existe) {
-  //     alreadyRegisteredDiv.classList.remove("d-none");
-  //   }
-  //   Autenticar usuario
   auth
     .createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -159,20 +135,6 @@ googleLogin.forEach((element) => {
       });
   });
 });
-// googleLogin.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   const provider = new firebase.auth.GoogleAuthProvider();
-//   auth
-//     .signInWithPopup(provider)
-//     .then((result) => {
-//       console.log(result);
-//       const userInfo = result;
-//       console.log("google sign in");
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
 
 // Facebook login
 const fbLogin = document.getElementById("fbLogin");
@@ -193,11 +155,13 @@ fbLogin.addEventListener("click", (e) => {
 
 // Log out
 
-const logOutButton = document.getElementById("logOut");
-
-logOutButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  auth.signOut().then(() => {
-    console.log("Loged out :(");
+const logOutButtons = document.querySelectorAll(".logOut");
+console.log(logOutButtons);
+logOutButtons.forEach((element) => {
+  element.addEventListener("click", (e) => {
+    e.preventDefault();
+    auth.signOut().then(() => {
+      console.log("Loged out :(");
+    });
   });
 });
